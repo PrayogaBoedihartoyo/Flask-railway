@@ -13,7 +13,7 @@ def get_all_users():
         password="ks492yYQCJFTYQuSe1u2"
     )
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users;")
+    cursor.execute("SELECT * FROM users")
     users = cursor.fetchall()
     conn.close()
     return users
