@@ -1,0 +1,8 @@
+name: Flask-railway
+type: python
+env: python-3.9
+build:
+  pre:
+    - pip install -r requirements.txt
+start:
+  web: gunicorn main:app
