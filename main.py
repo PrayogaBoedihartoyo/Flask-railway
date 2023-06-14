@@ -19,20 +19,21 @@ def get_all_users():
     return users
 
 
-@app.route('/users', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_users():
-    users = get_all_users()
-    response = []
-    for user in users:
-        user_data = {
-            'id': user[0],
-            'name': user[1],
-            'role': user[2],
-        }
-        response.append(user_data)
-    return {
-        'data': response,
-    }
+    return "Hello World"
+    # users = get_all_users()
+    # response = []
+    # for user in users:
+    #     user_data = {
+    #         'id': user[0],
+    #         'name': user[1],
+    #         'role': user[2],
+    #     }
+    #     response.append(user_data)
+    # return {
+    #     'data': response,
+    # }
 
 
 if __name__ == '__main__':
