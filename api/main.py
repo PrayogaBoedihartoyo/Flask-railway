@@ -25,7 +25,7 @@ def create_user():
         port="7559",
         database="railway",
         user="postgres",
-        password="ks492yYQCJFTYQuSe1u2"
+        password="555UJAEN55s8FUQaEBuT"
     )
     cursor = conn.cursor()
     cursor.execute("INSERT INTO users (name, role) VALUES ('John Doe', 'admin')")
