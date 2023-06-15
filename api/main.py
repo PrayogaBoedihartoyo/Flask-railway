@@ -19,8 +19,26 @@ def get_all_users():
     return users
 
 
+def create_user():
+    conn = psycopg2.connect(
+        host="containers-us-west-186.railway.app",
+        port="7559",
+        database="railway",
+        user="postgres",
+        password="ks492yYQCJFTYQuSe1u2"
+    )
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO users (name, role) VALUES ('John Doe', 'admin')")
+    conn.commit()
+    conn.close()
+    return {
+        'status': 200,
+        'message': 'User created successfully',
+    }
+
+
 @app.route('/', methods=['GET'])
-def get_users():
+def root():
     return {
         'data': 'Hello World',
     }
@@ -43,21 +61,9 @@ def get_users():
 
 
 @app.route('/create-user', methods=['POST'])
-def create_user():
-    conn = psycopg2.connect(
-        host="containers-us-west-186.railway.app",
-        port="7559",
-        database="railway",
-        user="postgres",
-        password="ks492yYQCJFTYQuSe1u2"
-    )
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (name, role) VALUES ('John Doe', 'admin')")
-    conn.commit()
-    conn.close()
-    return {
-        'data': 'User created',
-    }
+def create():
+    response = create_user()
+    return response
 
 
 if __name__ == '__main__':
