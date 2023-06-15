@@ -10,7 +10,7 @@ def get_all_users():
         port="7559",
         database="railway",
         user="postgres",
-        password="ks492yYQCJFTYQuSe1u2"
+        password="555UJAEN55s8FUQaEBuT"
     )
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users")
