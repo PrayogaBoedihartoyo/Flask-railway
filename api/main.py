@@ -21,6 +21,13 @@ def get_all_users():
 
 @app.route('/', methods=['GET'])
 def get_users():
+    return {
+        'data': 'Hello World',
+    }
+
+
+@app.route('/users', methods=['GET'])
+def get_users():
     users = get_all_users()
     response = []
     for user in users:
@@ -32,6 +39,24 @@ def get_users():
         response.append(user_data)
     return {
         'data': response,
+    }
+
+
+@app.route('/create-user', methods=['POST'])
+def create_user():
+    conn = psycopg2.connect(
+        host="containers-us-west-186.railway.app",
+        port="7559",
+        database="railway",
+        user="postgres",
+        password="ks492yYQCJFTYQuSe1u2"
+    )
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO users (name, role) VALUES ('John Doe', 'admin')")
+    conn.commit()
+    conn.close()
+    return {
+        'data': 'User created',
     }
 
 
