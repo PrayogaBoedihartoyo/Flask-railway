@@ -1,40 +1,8 @@
-import psycopg2
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+
+from api.handler import *
 
 app = Flask(__name__)
-
-
-def get_all_users():
-    conn = psycopg2.connect(
-        host="containers-us-west-186.railway.app",
-        port="7559",
-        database="railway",
-        user="postgres",
-        password="555UJAEN55s8FUQaEBuT"
-    )
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users")
-    users = cursor.fetchall()
-    conn.close()
-    return users
-
-
-def create_user():
-    conn = psycopg2.connect(
-        host="containers-us-west-186.railway.app",
-        port="7559",
-        database="railway",
-        user="postgres",
-        password="555UJAEN55s8FUQaEBuT"
-    )
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (name, role) VALUES ('John Doe', 'admin')")
-    conn.commit()
-    conn.close()
-    return {
-        'status': 200,
-        'message': 'User created successfully',
-    }
 
 
 @app.route('/', methods=['GET'])
@@ -62,7 +30,8 @@ def get_users():
 
 @app.route('/create-user', methods=['POST'])
 def create():
-    response = create_user()
+    body = request.get_json()
+    response = create_user(body)
     return response
 
 
