@@ -1,17 +1,24 @@
-from flask import Flask, jsonify, request
+from urllib.parse import urlparse
+from flask import Flask, request
 import psycopg2
 
 app = Flask(__name__)
 
 
-def get_all_users():
+def connection():
+    result = urlparse("postgresql://postgres:7L2HKhn.gDa=+gu@db.pyqnqrabgkadhwuwxkat.supabase.co:5432/postgres")
     conn = psycopg2.connect(
-        host="db.pyqnqrabgkadhwuwxkat.supabase.co",
-        port="5432",
-        database="postgres",
-        user="postgres",
-        password="7L2HKhn.gDa=+gu"
+        host=result.hostname,
+        port=result.port,
+        database=result.path[1:],
+        user=result.username,
+        password=result.password
     )
+    return conn
+
+
+def get_all_users():
+    conn = connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users")
     users = cursor.fetchall()
@@ -20,13 +27,7 @@ def get_all_users():
 
 
 def create_user(body):
-    conn = psycopg2.connect(
-        host="db.pyqnqrabgkadhwuwxkat.supabase.co",
-        port="5432",
-        database="postgres",
-        user="postgres",
-        password="7L2HKhn.gDa=+gu"
-    )
+    conn = connection()
     cursor = conn.cursor()
     cursor.execute("INSERT INTO users (name, role) VALUES (%s, %s)", (body['name'], body['role']))
     conn.commit()
@@ -38,13 +39,7 @@ def create_user(body):
 
 
 def delete_user():
-    # conn = psycopg2.connect(
-    #     host="db.pyqnqrabgkadhwuwxkat.supabase.co",
-    #     port="5432",
-    #     database="postgres",
-    #     user="postgres",
-    #     password="7L2HKhn.gDa=+gu"
-    # )
+    # conn = connection()
     # cursor = conn.cursor()
     # cursor.execute("DELETE FROM users WHERE id = 1")
     # conn.commit()
