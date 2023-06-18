@@ -26,6 +26,15 @@ def get_all_users():
     return users
 
 
+def get_user(id):
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE id = %s", (id,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+
 def create_user(body):
     conn = connection()
     cursor = conn.cursor()
@@ -82,7 +91,14 @@ def create():
 
 @app.route('/delete-user/<id>', methods=['DELETE'])
 def delete(id):
-    response = delete_user(id)
+    check_user = get_user(id)
+    if check_user:
+        response = delete_user(id)
+    else:
+        response = {
+            'status': 404,
+            'message': 'User not found',
+        }
     return response
 
 
