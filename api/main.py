@@ -38,12 +38,12 @@ def create_user(body):
     }
 
 
-def delete_user():
-    # conn = connection()
-    # cursor = conn.cursor()
-    # cursor.execute("DELETE FROM users WHERE id = 1")
-    # conn.commit()
-    # conn.close()
+def delete_user(id):
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM users WHERE id = %s", (id,))
+    conn.commit()
+    conn.close()
     return {
         'status': 200,
         'message': 'User deleted successfully',
@@ -77,6 +77,12 @@ def get_users():
 def create():
     body = request.get_json()
     response = create_user(body)
+    return response
+
+
+@app.route('/delete-user/<id>', methods=['DELETE'])
+def delete(id):
+    response = delete_user(id)
     return response
 
 
